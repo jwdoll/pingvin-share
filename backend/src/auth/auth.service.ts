@@ -74,6 +74,9 @@ export class AuthService {
       throw new BadRequestException("Email or username is required");
     }
 
+    
+    this.logger.log(this.prisma.user.count);
+
     if (!this.config.get("oauth.disablePassword")) {
       const user = await this.prisma.user.findFirst({
         where: {

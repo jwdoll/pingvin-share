@@ -1,14 +1,22 @@
 services:
   pingvin-share:
-    image: stonith404/pingvin-share
+    build: .
+    develop:
+      watch: 
+      - action: rebuild
+        path: ./
     restart: unless-stopped
     ports:
       - 3000:3000
     environment:
       - TRUST_PROXY=false # Set to true if a reverse proxy is in front of the container
+      # - DATA_DIRECTORY=/home/scansmitter/front40/pingvin-share/pingvin-share/data
+      # - SHARE_DIRECTORY=./shares
+      # - DATABASE_URL="file:../data/pingvin-share.db?connection_limit=1"
     volumes:
       - "./data:/opt/app/backend/data"
       - "./data/images:/opt/app/frontend/public/img"
+      - "/home/scansmitter/front40/pingvin-share/pingvin-share/data/uploads/shares:/opt/app/backend/data/uploads/shares"
 
   # To add ClamAV, to scan your shares for malicious files, 
   # see https://stonith404.github.io/pingvin-share/setup/integrations/#clamav-docker-only
